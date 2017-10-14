@@ -17,21 +17,26 @@ file.create("IDseq.fasta")
 write(string,file="IDseq.fasta",append=TRUE)
 #assign regex to a variable name
 Z="([ATGC]{8})(AATTC)([ATGC]{3})+"
+Y="[NATGC]{98}"
 A="[Vv]([0-9]{2})?.([0-9]{2})?[.]?[A-Za-z0-9]{1,4}.[0-9]{3}"
 B="[@]FCC638CACXX[:].+//1$"
 
 #A while loop will allow us to skip operating on fastq lines we don't care about
 #set a line counter variable
-while (){ #when should your loop stop?
-  if (){ #is the current line a header line?
-    str_detect(searchString,B)
+while (str_detect(seq[i],Y==TRUE)){ #when should your loop stop?
+  if (str_detect(seq[i],B==TRUE)) next{ #is the current line a header line?
+    #move to next line
     #add one to the line counter to move to the sequence line
-    if (){ #is your regex in the sequence
+    if (string_detect(seq[i+1],Y==TRUE)){ #is your regex in the sequence
       #store your regex matches
-      if (){ #is your DNA barcode in the ID data frame?
+      write(Y,file="IDseq.fasta",append=TRUE)
+      if (string_detect(seq[i],Z==TRUE)){ #is your DNA barcode in the ID data frame?
         #append the start position of the AATTC to your vector, I couldn't find a clean way to get the start pos of the AATTC group
         #I took the position of the full match in the original string, plus the postion of AATTC in the full match -1
+        str_locate(seq[i],Z==TRUE)+str_locate(seq[i],Z==TRUE)-1
         #write the fasta header to your file by getting the correct ID from the data frame
+        str_extract_all(ID[i],A==TRUE)
+        write(A,file="IDseq.fasta",append=TRUE)
         #write the sequence remaining to the right of the AATTC cut site to your file
       }else{
         #Optional: append location of AATTC to "bad" vector (pattern found but no barcode match) as above
