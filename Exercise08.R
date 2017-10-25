@@ -27,3 +27,11 @@ for (i in 1:length(readFile)) {
   write(a, file="FixedData.vcf", append=TRUE)
   }
 }
+
+#Using shell and notepad, manually removed the "#" on the second line preceeding "CHROM" so that names of individuals are visible to read.table, and saved as "FixedDataNew.vcf".
+
+#Converted "FixedDataNew.vcf" to a table for easier reading.
+test=read.table(file="FixedDataNew.vcf", fill=TRUE)
+
+#Wrote the table to a new file, which is the same as originally file except the changes asked for in the assignment and the removal of the precceding "#" on the second line of the original data.
+write.table(test, file="FinalData.vcf")
