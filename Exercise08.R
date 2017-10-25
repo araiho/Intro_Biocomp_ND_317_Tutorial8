@@ -8,7 +8,7 @@ file.create("FixedData.vcf")
 #Creating regexpressions
 A <- "[Cc][Ff](07)?\\.[Aa]2?"
 B <- "[Cc][Ff]\\.[Gg]([Aa][Ii])?2?"
-C <- "(0/0:[0-9],[0-9]|NA)"
+C <- "([01]/[01]:[0-9],[0-9]|NA)"
 D <- "([0-9],[0-9]|NA)"
 E <- "\\./\\."
 
@@ -23,7 +23,7 @@ for (i in 1:length(readFile)) {
   a <- str_replace_all(readFile[i],E, "NA")
   a <- str_extract_all(a, C)
   a <- str_extract_all(a, D)
-  a <- paste( unlist(a), collapse=' ')
+  a <- paste( unlist(a), collapse='    ')
   write(a, file="FixedData.vcf", append=TRUE)
   }
 }
