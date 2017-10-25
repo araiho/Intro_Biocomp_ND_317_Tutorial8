@@ -1,35 +1,43 @@
+rm(list=ls())
+
+#load string package
 library(stringr)
+
+#open and read the file
 var = scan(file = "Cflorida.vcf", what = character(), sep = "\n")
-CfloridaCounts.txt<-file("output.txt")
+
+#initialize output file
 CfloridaCounts = as.data.frame(matrix(ncol = 1, nrow = 1001), sep = "\n")
-data=as.data.frame(var)
+
+#assign the regex strings to variable names
 texasnames="([Cc][Ff])(07)?\\.[Aa][0-9]?\\.([0-9]{3})"
 floridanames="([Cc][Ff])\\.[Gg][0-9Aa][Ii]?\\.([0-9]{3})"
 allelename="[0-9/][0-9]:([0-9]+),([0-9]+):([0-9]+):([0-9]+):([0-9]+),([0-9]+),([0-9]+)"
 is.na<-"[.][/][.][:][.][:][.][:][.][:][.]"
 header = "##Deleted a large header, all lines starting with ##"
 
-  
+#loop over file
   for(i in 1:length(var)){
-    if (str_detect(var[i], texasnames)==TRUE){
-newname = str_replace_all(var[i],texasnames,"Cf.Sfa.\3")
-CfloridaCounts[i,1] = newname
+    if (str_detect(var[i],header)==TRUE) #detects header line
+    {
+      CfloridaCounts[i,1] = header #writes headerline to the output file
+    }
+    if (str_detect(var[i], texasnames)==TRUE){ #detects sample names
+newname = str_replace_all(var[i],texasnames,"Cf.Sfa.\3")#replaces sample names
+CfloridaCounts[i,1] = newname #writes sample name to outputfile
 }
 
-  if (str_detect(var[i], floridanames)==TRUE){
-newname = str_replace_all(var[i], floridanames, "Cf.Gai.\2")
-CfloridaCounts[i,1] = newname
+  if (str_detect(var[i], floridanames)==TRUE){ #detects sample names
+newname = str_replace_all(var[i], floridanames, "Cf.Gai.\2")#replaces sample names
+CfloridaCounts[i,1] = newname#writes sample name to outputfile
 }
     
-    if (str_detect(var[i], allelename)==TRUE){
-newname = str_replace_all(var[i], allelename, "\1,\2")
-CfloridaCounts[i,1] = newname
+    if (str_detect(var[i], allelename)==TRUE){#detects allele names
+newname = str_replace_all(var[i], allelename, "\1,\2")# replaces allele names
+CfloridaCounts[i,1] = newname#writes allele names to outputfile
     }
   
-if (str_detect(var[i],header)==TRUE)
-  {
-  CfloridaCounts[i,1] = header 
-}
+
   }
 #thispartisnotworking
 # for(i in 1:length(var)){
@@ -45,6 +53,10 @@ if (str_detect(var[i],header)==TRUE)
 #   }
 # }
 
+for(i in 1:length(var)){
+      newname = str_replace_na(var[i], replacement = "NA")
+      CfloridaCounts[i,1] = newname
+    }
 
       
       
