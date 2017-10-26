@@ -7,17 +7,23 @@ library(stringr)
 vari=scan(file="Cflorida.vcf",what=character(),sep="\n")
 
 #assign the regex strings to variable names
-texasnames="[(CF)(cf)][0-9]*[.][Aa][0-9]*[.]"
-floridanames="[(CF)(cf)][.][Gg][a-zA-Z0-9]*[.]"
-allelename="[0-9/][0-9]:([0-9]+),([0-9]+):([0-9]+):([0-9]+):([0-9]+),([0-9]+),([0-9]+)"
-is.na<-"[.][/][.][:][.][:][.][:][.][:][.]"
-header = "##Deleted a large header, all lines starting with ##"
+texasnames="(CF|cf)[0-9]*[.][Aa][0-9]*[.]"
+floridanames="(CF|cf)[.][Gg][a-zA-Z0-9]*[.]"
+detectallele='GT:AD:DP:GQ:PL'
+allelename="([0-9]|.)[/]([0-9]|.):([0-9]+,[0-9]+):([0-9]+|.):([0-9]+|.):(([0-9]+),([0-9]+),([0-9]+)|.)"
+NAallelename="([0-9]|.)[/]([0-9]|.):(.):([0-9]+|.):([0-9]+|.):(([0-9]+),([0-9]+),([0-9]+)|.)"
 
 for (i in 1:length(vari)){
   if (str_detect(vari[i],'CHROM')==TRUE){
-    vari[2]=str_replace_all(vari[i],texasnames,"f.Sfa.")
+    vari[2]=str_replace_all(vari[i],texasnames,"Cf.Sfa.")
   }
   if (str_detect(vari[i],'CHROM')==TRUE){
-    vari[2]=str_replace_all(vari[i],floridanames,"f.Gai.")
+    vari[2]=str_replace_all(vari[i],floridanames,"Cf.Gai.")
+  }
+  if (str_detect(vari[i],detectallele)==TRUE){
+    vari[i]=str_replace_all(vari[i],NAallelename,'NA')
+  }
+  if (str_detect(vari[i],detectallele)==TRUE){
+    vari[i]=str_replace_all(vari[i],allelename,"([0-9]+,[0-9]+)")
   }
 }
