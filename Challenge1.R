@@ -11,6 +11,8 @@ texasnames="(CF|cf)[0-9]*[.][Aa][0-9]*[.]"
 floridanames="(CF|cf)[.][Gg][a-zA-Z0-9]*[.]"
 detectallele='GT:AD:DP:GQ:PL'
 allelename="([0-9]|.)[/]([0-9]|.):([0-9]+,[0-9]+):([0-9]+|.):([0-9]+|.):(([0-9]+),([0-9]+),([0-9]+)|.)"
+alleleone="([0-9]|.)[/]([0-9]|.):"
+alleletwo=":([0-9]+|.):([0-9]+|.):(([0-9]+),([0-9]+),([0-9]+)|.)"
 NAallelename="([0-9]|.)[/]([0-9]|.):(.):([0-9]+|.):([0-9]+|.):(([0-9]+),([0-9]+),([0-9]+)|.)"
 
 for (i in 1:length(vari)){
@@ -24,6 +26,9 @@ for (i in 1:length(vari)){
     vari[i]=str_replace_all(vari[i],NAallelename,'NA')
   }
   if (str_detect(vari[i],detectallele)==TRUE){
-    vari[i]=str_replace_all(vari[i],allelename,"([0-9]+,[0-9]+)")
+    vari[i]=str_replace_all(vari[i],alleleone,"")
+  }
+  if (str_detect(vari[i],detectallele)==TRUE){
+    vari[i]=str_replace_all(vari[i],alleletwo,"")
   }
 }
