@@ -19,7 +19,7 @@ D <- "([0-9],[0-9]|NA)"
 E <- "\\./\\."
 
 #The beginning of each line
-header <- "Contig[0-9]{2,5}\\s[0-9]{2}\\sDeletedStuff\\sGT:AD:DP:GQ:PL"
+header <- "Contig[0-9]{2,5}\\s[0-9]{1,2}\\sDeletedStuff\\sGT:AD:DP:GQ:PL"
 
 #Looping through contents of file
 for (i in 1:length(readFile)) {
