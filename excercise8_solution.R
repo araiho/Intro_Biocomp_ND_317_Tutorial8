@@ -57,8 +57,5 @@ for(i in 1:length(vari)){
       newname = str_replace_na(vari[i], replacement = "NA")
       CfloridaCounts[i,1] = newname
     }
-
-      
-      
       
    
