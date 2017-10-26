@@ -5,7 +5,6 @@ library(stringr)
 ######Problem 1
 
 
-
 #Read in data and create new file for output
 
 readFile <- scan(file = "Cflorida.vcf", what = character(), sep = "\n")
@@ -49,7 +48,6 @@ header <- "Contig[0-9]{2,5}\\s[0-9]{1,2}\\sDeletedStuff\\sGT:AD:DP:GQ:PL"
 for (i in 1:length(readFile)) {
   
   
-  
   #Copy first line of original file
   
   if(str_detect(readFile[i], "##")){
@@ -60,9 +58,11 @@ for (i in 1:length(readFile)) {
     
     #Standardizing samples
     
+
   } else if (str_detect(readFile[i], "#")) {
     
     a <- str_replace_all(readFile[i],A,"Cf.Sfa")
+
     
     write(str_replace_all(a,B,"Cf.Gai"),file="CfloridaCounts.vcf",append=TRUE)
     
