@@ -1,20 +1,23 @@
 rm(list=ls())
 
+#load string package
 library(stringr)
 
-unModifiedData=scan(file="Cflorida.vcf",what=character(),sep="")
-CleanTable = data.frame(matrix(ncol = 1, nrow = 100))
+#open and read the file
+vari=scan(file="Cflorida.vcf",what=character(),sep="\n")
 
-SampleNameTexas="[Cc][Ff][0-9]*[.][Aa][0-9]*[.][0-9]{3}"
-SampleNameFlorida="[Cc][Ff][.][Gg][A-Za-z0-9]*[.][0-9]{3}"
+#assign the regex strings to variable names
+texasnames="[(CF)(cf)][0-9]*[.][Aa][0-9]*[.]"
+floridanames="[(CF)(cf)][.][Gg][a-zA-Z0-9]*[.]"
+allelename="[0-9/][0-9]:([0-9]+),([0-9]+):([0-9]+):([0-9]+):([0-9]+),([0-9]+),([0-9]+)"
+is.na<-"[.][/][.][:][.][:][.][:][.][:][.]"
+header = "##Deleted a large header, all lines starting with ##"
 
-for (i in 1:length(unModifiedData)){
-  if (str_detect(unModifiedData[i],SampleNameTexas)==TRUE){
-    NewName=str_replace(unModifiedData[i],'[Cc][Ff][0-9]*[.][Aa][0-9]*','Cf.Sfa')
-    CleanTable[i,1]=NewName
+for (i in 1:length(vari)){
+  if (str_detect(vari[i],'CHROM')==TRUE){
+    vari[2]=str_replace_all(vari[i],texasnames,"f.Sfa.")
   }
-  else if (str_detect(unModifiedData[i],SampleNameFlorida)==TRUE){
-    NewName=str_replace(unModifiedData[i],'[Cc][Ff][.][Gg][A-Za-z0-9]*','Cf.Gai')
-    CleanTable[i,1]=NewName
+  if (str_detect(vari[i],'CHROM')==TRUE){
+    vari[2]=str_replace_all(vari[i],floridanames,"f.Gai.")
   }
 }
