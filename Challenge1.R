@@ -32,3 +32,10 @@ for (i in 1:length(vari)){
     vari[i]=str_replace_all(vari[i],alleletwo,"")
   }
 }
+
+CfloridaCounts = as.data.frame(matrix(ncol = 1, nrow = 1001), sep = "\n")
+for (i in 1:length(vari)){
+  CfloridaCounts[i,1]=vari[i]
+}
+
+write.table(CfloridaCounts, file='CfloridaCounts.txt', sep = "\n")
